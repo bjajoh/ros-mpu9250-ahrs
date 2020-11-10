@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="mpu9250-driver" name="mpu9250" type="mpu9250.py" output="screen" required="true"> </node>
+    <node pkg="imu_filter_madgwick" name="imu_filter_node" type="imu_filter_node" output="screen" required="true"> </node>
+</launch>
