@@ -1,5 +1,5 @@
 # ros-mpu9250-ahrs
-ROS driver with imu + magnetometer fusion for a Raspberry Pi
+ROS driver with imu + magnetometer fusion for the Raspberry Pi in use with the MPU9250
 
 ## Installation
 This ROS Package is tested with the Raspberry Pi4 and ROS noetic
