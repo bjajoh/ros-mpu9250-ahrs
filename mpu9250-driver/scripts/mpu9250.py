@@ -5,10 +5,14 @@
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Imu, MagneticField
+import math
 
 import time
 from mpu9250_jmdev.registers import *
 from mpu9250_jmdev.mpu_9250 import MPU9250
+
+G = 9.81
+MagFieldConversion = 1000
 
 mpu = MPU9250(
     address_ak=AK8963_ADDRESS,
@@ -39,9 +43,9 @@ def talker():
             # Fill mag msg
             mx, my, mz = mpu.readMagnetometerMaster()
             mag_msg.header.stamp = rospy.get_rostime()
-            mag_msg.magnetic_field.x = mx
-            mag_msg.magnetic_field.y = my
-            mag_msg.magnetic_field.z = mz
+            mag_msg.magnetic_field.x = mx/MagFieldConversion
+            mag_msg.magnetic_field.y = my/MagFieldConversion
+            mag_msg.magnetic_field.z = mz/MagFieldConversion
 
             # create imu msg
             q0 = 1.0 #W
@@ -62,17 +66,17 @@ def talker():
             imu_msg.orientation_covariance[0] = 0.1
 
             gx, gy, gz = mpu.readGyroscopeMaster()
-            imu_msg.angular_velocity.x = gx
-            imu_msg.angular_velocity.y = gy
-            imu_msg.angular_velocity.z = gz
+            imu_msg.angular_velocity.x = math.radians(gx)
+            imu_msg.angular_velocity.y = math.radians(gy)
+            imu_msg.angular_velocity.z = math.radians(gz)
             imu_msg.angular_velocity_covariance[0] = 1e6
             imu_msg.angular_velocity_covariance[4] = 1e6
             imu_msg.angular_velocity_covariance[8] = 0.1
 
             ax, ay, az = mpu.readAccelerometerMaster()
-            imu_msg.linear_acceleration.x = ax
-            imu_msg.linear_acceleration.y = ay
-            imu_msg.linear_acceleration.z = az
+            imu_msg.linear_acceleration.x = ax*G
+            imu_msg.linear_acceleration.y = ay*G
+            imu_msg.linear_acceleration.z = az*G
             imu_msg.linear_acceleration_covariance[0] = 1e6
             imu_msg.linear_acceleration_covariance[4] = 1e6
             imu_msg.linear_acceleration_covariance[8] = 0.1
