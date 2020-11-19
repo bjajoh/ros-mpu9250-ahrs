@@ -11,8 +11,8 @@ import time
 from mpu9250_jmdev.registers import *
 from mpu9250_jmdev.mpu_9250 import MPU9250
 
-G = 9.81
-MagFieldConversion = 1000
+G = 9.80665
+MagFieldConversion_uT_T = 0.000001
 
 mpu = MPU9250(
     address_ak=AK8963_ADDRESS,
@@ -43,9 +43,9 @@ def talker():
             # Fill mag msg
             mx, my, mz = mpu.readMagnetometerMaster()
             mag_msg.header.stamp = rospy.get_rostime()
-            mag_msg.magnetic_field.x = mx/MagFieldConversion
-            mag_msg.magnetic_field.y = my/MagFieldConversion
-            mag_msg.magnetic_field.z = mz/MagFieldConversion
+            mag_msg.magnetic_field.x = mx*MagFieldConversion_uT_T
+            mag_msg.magnetic_field.y = my*MagFieldConversion_uT_T
+            mag_msg.magnetic_field.z = mz*MagFieldConversion_uT_T
             mag_msg.magnetic_field_covariance[0] = 0.01
             mag_msg.magnetic_field_covariance[4] = 0.01
             mag_msg.magnetic_field_covariance[8] = 0.01
