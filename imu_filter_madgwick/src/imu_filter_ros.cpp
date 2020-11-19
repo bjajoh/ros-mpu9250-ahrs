@@ -45,11 +45,11 @@ ImuFilterRos::ImuFilterRos(ros::NodeHandle nh, ros::NodeHandle nh_private):
   if (!nh_private_.getParam ("reverse_tf", reverse_tf_))
    reverse_tf_ = false;
   if (!nh_private_.getParam ("fixed_frame", fixed_frame_))
-   fixed_frame_ = "odom";
+   fixed_frame_ = "map";
   if (!nh_private_.getParam ("constant_dt", constant_dt_))
     constant_dt_ = 0.0;
   if (!nh_private_.getParam ("remove_gravity_vector", remove_gravity_vector_))
-    remove_gravity_vector_= false;
+    remove_gravity_vector_= true;
   if (!nh_private_.getParam ("publish_debug_topics", publish_debug_topics_))
     publish_debug_topics_= false;
 
