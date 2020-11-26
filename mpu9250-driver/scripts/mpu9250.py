@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# Bjarne Johannsen, 2020
-
-
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Imu, MagneticField
